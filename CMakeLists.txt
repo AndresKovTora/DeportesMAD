@@ -1,0 +1,18 @@
+# Versión mínima de CMake
+cmake_minimum_required(VERSION 3.10)
+
+# Nombre de proyecto
+project(DeportesMAD)
+
+# Estándares de C/C++
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Directorio de includes
+include_directories(include)
+
+# Directorio de código fuente
+set(SOURCE_FILES src/main.c)
+
+# Crear ejecutable
+add_executable(DeportesMAD-bin ${SOURCE_FILES})

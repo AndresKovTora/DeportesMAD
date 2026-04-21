@@ -1,0 +1,11 @@
+# Directorios de build
+/build
+
+# Ejecutables
+*.out
+*.o
+*.exe
+
+# Archivos de editor
+.vscode/
+.idea/
