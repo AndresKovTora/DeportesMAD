@@ -7,6 +7,11 @@
 #include <stdlib.h>
 #endif
 
+#ifndef _STDIO_H
+#include <stdio.h>
+#endif
+
+
 #ifndef _STRING_H
 #include <string.h>
 #endif
@@ -36,24 +41,26 @@ typedef struct
 // polideportivo X, pues cada uno de los índices de 0 a 49 representa una de las veces que se da natación.
 typedef struct
 {
-  char *nombre;
-  int plazasTotales;
-  int plazasOcupadas;
-  fecha fecha; 
+  int anio;
+  int mes;
+  int dia;
+  char *dia_semana;
+  int hora_inicio[2];
+  int hora_fin[2];
+  char *actividad_base;
   char *modalidad;
-  char *tipo;
-} actividad;
-
-// Polideportivo.
-// Información relativa a un polideportivo. Un polideportivo contiene una serie de actividades.
-typedef struct
-{
-  char *nombre;
-  actividad actividades[];
-} polideportivo;
-
+  char *centro;
+  int plazas;
+  int ocupadas;
+  int libres;
+  char *tipo_actividad;
+} linea;
 
 /* Definición de funciones */
 
+// Contar 
+
+// Lector final. Se le pasa el archivo y devuelve un array de estructuras
+linea *csv_a_polideportivos(FILE *archivo, int *tamano);
 
 #endif
