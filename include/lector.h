@@ -32,7 +32,7 @@ typedef struct
   };
   int diaMes;
   int mes;
-  int año;
+  int ano;
 } fecha;
 
 // Actividad.
