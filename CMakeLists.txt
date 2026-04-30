@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(include)
 
 # Directorio de código fuente
-set(SOURCE_FILES src/main.c)
+set(SOURCE_FILES src/main.c src/lector.c)
 
 # Crear ejecutable
 add_executable(DeportesMAD-bin ${SOURCE_FILES})

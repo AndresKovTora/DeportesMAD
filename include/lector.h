@@ -41,26 +41,30 @@ typedef struct
 // polideportivo X, pues cada uno de los índices de 0 a 49 representa una de las veces que se da natación.
 typedef struct
 {
-  int anio;
-  int mes;
-  int dia;
+  int  anio;
+  int  mes;
+  int  dia;
   char *dia_semana;
-  int hora_inicio[2];
-  int hora_fin[2];
+  int  hora_inicio[2];
+  int  hora_fin[2];
   char *actividad_base;
   char *modalidad;
   char *centro;
-  int plazas;
-  int ocupadas;
-  int libres;
+  int  plazas;
+  int  ocupadas;
+  int  libres;
   char *tipo_actividad;
 } linea;
 
 /* Definición de funciones */
 
-// Contar 
+// Saltar la primera línea del archivo, que contiene los títulos.
+void saltar_primera_linea(FILE *archivo);
+
+// Contar número de líneas del archivo.
+int contar_lineas(FILE *archivo);
 
 // Lector final. Se le pasa el archivo y devuelve un array de estructuras
-linea *csv_a_polideportivos(FILE *archivo, int *tamano);
+linea *csv_a_actividades(char *ruta_al_CSV, u_int *tamano);
 
 #endif
