@@ -13,18 +13,30 @@
 
 int contar_lineas(FILE *archivo)
 {
-  int linea_actual = ftell(archivo), lineas_totales = 0;
+  u_int cursor_limpio, lineas_totales = 0;
+  char lectura;
 
   // Saltar la primera línea
   rewind(archivo);
   for (char x; x != '\n'; fscanf(archivo, "%c", &x));
 
+  // El bucle anterior detiene el cursor en el primer '\n', se añade un caracter a la
+  // posición actual para no contar la primera línea del CSV, que contiene títulos.
+  fseek(archivo, 1, SEEK_CUR);
+  cursor_limpio = ftell(archivo);
+  
   // Leer número de líneas
-  for (char x; x != EOF; fscanf(archivo, "%c", &x)) {
-    x == '\n' ? lineas_totales++ : lineas_totales;
+  while (fscanf(archivo, "%c", &lectura) != EOF) {
+    if (lectura == '\n') {
+      lineas_totales++;
+      printf("\rcontar_lineas(): leídas %d líneas.", lineas_totales);
+      fflush(stdout);
+    }
   }
 
-  fseek(archivo, linea_actual, SEEK_SET);
+  fseek(archivo, cursor_limpio, SEEK_SET);
+  printf("\rContadas %d líneas.", lineas_totales);
+  fflush(stdout);
 
   return lineas_totales;
 }
@@ -38,7 +50,7 @@ linea *csv_a_actividades(char *ruta_al_CSV, u_int *tamano)
   // Considerar que si lectura ha sido errónea.
   if (archivo == NULL)
   {
-    printf("Ha ocurrido un error al abrir el archivo (dataset.csv).");
+    perror("csv_a_actividades(): Ha ocurrido un error al abrir el archivo.");
     fclose(archivo);
     return NULL;
   }
@@ -46,7 +58,7 @@ linea *csv_a_actividades(char *ruta_al_CSV, u_int *tamano)
   else {
     u_int lineas = contar_lineas(archivo);
     rewind(archivo);
-    linea *datos = malloc(sizeof(linea) * lineas);
+    linea *datos = malloc(sizeof(linea) * lineas + 1);
 
     for (int i = 0; i < lineas; i++) {
       fscanf(archivo, "%d %d %d %[^ ] %d:%d %d:%d %[^ ] %[^ ] %[^ ] %d %d %d %[^\n]\n",
@@ -66,6 +78,8 @@ linea *csv_a_actividades(char *ruta_al_CSV, u_int *tamano)
                &datos[i].libres,
                datos[i].tipo_actividad
       );
+      printf("\rcsv_a_actividades(): Leídas %d líneas.", i+1);
+      fflush(stdout);
     }
 
     fclose(archivo);

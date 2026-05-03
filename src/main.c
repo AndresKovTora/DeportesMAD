@@ -12,7 +12,7 @@
 int main()
 {
   u_int tamano;
-  linea *datos = csv_a_actividades("../include/dataset.csv", &tamano);
+  linea *datos = csv_a_actividades("../data/dataset.csv", &tamano);
 
   printf("%d", datos[10].hora_fin[0]);
 
