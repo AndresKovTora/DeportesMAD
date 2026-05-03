@@ -13,7 +13,7 @@
 
 int contar_lineas(FILE *archivo)
 {
-  u_int cursor_limpio, lineas_totales = 0;
+  unsigned int cursor_limpio, lineas_totales = 0;
   char lectura;
 
   // Saltar la primera línea
@@ -42,7 +42,7 @@ int contar_lineas(FILE *archivo)
 }
 
 
-linea *csv_a_actividades(char *ruta_al_CSV, u_int *tamano)
+linea *csv_a_actividades(char *ruta_al_CSV, unsigned int *tamano)
 {
   // Abrir el archivo
   FILE *archivo; archivo = fopen(ruta_al_CSV, "r");
@@ -56,7 +56,7 @@ linea *csv_a_actividades(char *ruta_al_CSV, u_int *tamano)
   }
   // Si la lecutra ha sido correcta, comenzar la lectura del archivo.
   else {
-    u_int lineas = contar_lineas(archivo);
+    unsigned int lineas = contar_lineas(archivo);
     linea *datos = malloc(sizeof(linea) * lineas + 1);
     int fscanf_return, errores = 0;
 
@@ -80,7 +80,7 @@ linea *csv_a_actividades(char *ruta_al_CSV, u_int *tamano)
       fflush(stdout);
     }
 
-    printf(", con %d erróneas.", errores);
+    printf(", con %d erróneas.\n", errores);
 
     fclose(archivo);
     return datos;

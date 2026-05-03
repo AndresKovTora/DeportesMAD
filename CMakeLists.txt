@@ -1,6 +1,11 @@
 # Versión mínima de CMake
 cmake_minimum_required(VERSION 3.10)
 
+# Ignorar avisos de Windows
+if(MSVC)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+endif()
+
 # Nombre de proyecto
 project(DeportesMAD)
 

@@ -16,8 +16,8 @@
 #include <string.h>
 #endif
 
-#ifndef _LECTOR_L
-#define _LECTOR_L 1
+#ifndef LECTOR_H
+#define LECTOR_H
 #define MAX_LEN_SHORT 12
 #define MAX_LEN_LONG  48
 
@@ -50,6 +50,6 @@ typedef struct
 int contar_lineas(FILE *archivo);
 
 // Lector final. Se le pasa el archivo y devuelve un array de estructuras
-linea *csv_a_actividades(char *ruta_al_CSV, u_int *tamano);
+linea *csv_a_actividades(char *ruta_al_CSV, unsigned int *tamano);
 
 #endif
