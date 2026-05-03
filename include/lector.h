@@ -18,6 +18,8 @@
 
 #ifndef _LECTOR_L
 #define _LECTOR_L 1
+#define MAX_LEN_SHORT 12
+#define MAX_LEN_LONG  48
 
 /* Definición de estructuras */
 
@@ -30,16 +32,16 @@ typedef struct
   int  anio;
   int  mes;
   int  dia;
-  char *dia_semana;
+  char dia_semana[MAX_LEN_SHORT];
   int  hora_inicio[2];
   int  hora_fin[2];
-  char *actividad_base;
-  char *modalidad;
-  char *centro;
+  char actividad_base[MAX_LEN_LONG];
+  char modalidad[MAX_LEN_LONG];
+  char centro[MAX_LEN_LONG];
   int  plazas;
   int  ocupadas;
   int  libres;
-  char *tipo_actividad;
+  char tipo_actividad[MAX_LEN_LONG];
 } linea;
 
 /* Definición de funciones */

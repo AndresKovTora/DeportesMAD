@@ -14,7 +14,9 @@ int main()
   u_int tamano;
   linea *datos = csv_a_actividades("../data/dataset.csv", &tamano);
 
-  printf("%d", datos[10].hora_fin[0]);
+  printf("%s", datos[10].actividad_base);
 
+  free(datos);
+  
   return 0;
 }

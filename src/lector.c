@@ -22,11 +22,11 @@ int contar_lineas(FILE *archivo)
 
   // El bucle anterior detiene el cursor en el primer '\n', se añade un caracter a la
   // posición actual para no contar la primera línea del CSV, que contiene títulos.
-  fseek(archivo, 1, SEEK_CUR);
+  // fseek(archivo, 1, SEEK_CUR);
   cursor_limpio = ftell(archivo);
   
   // Leer número de líneas
-  while (fscanf(archivo, "%c", &lectura) != EOF) {
+  while ((lectura = fgetc(archivo)) != EOF) {
     if (lectura == '\n') {
       lineas_totales++;
       printf("\rcontar_lineas(): leídas %d líneas.", lineas_totales);
@@ -57,30 +57,30 @@ linea *csv_a_actividades(char *ruta_al_CSV, u_int *tamano)
   // Si la lecutra ha sido correcta, comenzar la lectura del archivo.
   else {
     u_int lineas = contar_lineas(archivo);
-    rewind(archivo);
     linea *datos = malloc(sizeof(linea) * lineas + 1);
+    int fscanf_return, errores = 0;
 
     for (int i = 0; i < lineas; i++) {
-      fscanf(archivo, "%d %d %d %[^ ] %d:%d %d:%d %[^ ] %[^ ] %[^ ] %d %d %d %[^\n]\n",
-               &datos[i].anio,
-               &datos[i].mes,
-               &datos[i].dia,
-               datos[i].dia_semana,
-               &datos[i].hora_inicio[0],
-               &datos[i].hora_inicio[1],
-               &datos[i].hora_fin[0],
-               &datos[i].hora_fin[1],
-               datos[i].actividad_base,
-               datos[i].modalidad,
-               datos[i].centro,
-               &datos[i].plazas,
-               &datos[i].ocupadas,
-               &datos[i].libres,
-               datos[i].tipo_actividad
+      fscanf_return = fscanf(archivo, "%d %d %d %[^ ] %d:%d %d:%d %[^ ] %[^ ] %[^ ] %d %d %d %[^\n]\n",
+        &datos[i].anio, &datos[i].mes, &datos[i].dia,
+        datos[i].dia_semana,
+        &datos[i].hora_inicio[0], &datos[i].hora_inicio[1],
+        &datos[i].hora_fin[0], &datos[i].hora_fin[1],
+        datos[i].actividad_base, datos[i].modalidad, datos[i].centro,
+        &datos[i].plazas, &datos[i].ocupadas, &datos[i].libres,
+        datos[i].tipo_actividad
       );
-      printf("\rcsv_a_actividades(): Leídas %d líneas.", i+1);
+
+      if (fscanf_return != 15) {
+        printf("\rERROR: Lectura incorrecta en la línea %d.\n", i+1);
+        errores++;
+      }
+
+      printf("\rcsv_a_actividades(): Leídas %d líneas", i+1);
       fflush(stdout);
     }
+
+    printf(", con %d erróneas.", errores);
 
     fclose(archivo);
     return datos;
