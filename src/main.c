@@ -11,7 +11,7 @@
 // Función principal
 int main()
 {
-  u_int tamano;
+  unsigned int tamano;
   linea *datos = csv_a_actividades("../data/dataset.csv", &tamano);
 
   printf("%s", datos[10].actividad_base);
