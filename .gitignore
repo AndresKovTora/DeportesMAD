@@ -9,3 +9,7 @@
 # Archivos de editor
 .vscode/
 .idea/
+
+# Scripts de compilación
+*.sh
+*.bat
