@@ -1,7 +1,7 @@
 # Directorios de compilación
 build/
-out/
-include/config.h
+./out/
+./include/config.h
 
 # Ejecutables
 *.out
