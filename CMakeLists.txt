@@ -23,7 +23,7 @@ configure_file(
 include_directories(include ${CMAKE_BINARY_DIR}/include)
 
 # Directorio de código fuente
-set(SOURCE_FILES src/main.c src/lector.c)
+set(SOURCE_FILES src/main.c src/lector.c src/listas.c)
 
 # Crear ejecutable
 add_executable(DeportesMAD-bin ${SOURCE_FILES})
