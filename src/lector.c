@@ -18,7 +18,8 @@ int contar_lineas(FILE *archivo)
 
   // Saltar la primera línea
   rewind(archivo);
-  for (char x; x != '\n'; fscanf(archivo, "%c", &x));
+  char x = 0;
+  while (x != '\n') fscanf(archivo, "%c", &x);
 
   // El bucle anterior detiene el cursor en el primer '\n', se añade un caracter a la
   // posición actual para no contar la primera línea del CSV, que contiene títulos.
