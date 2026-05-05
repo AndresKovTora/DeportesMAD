@@ -18,6 +18,7 @@
 
 #ifndef LECTOR_H
 #define LECTOR_H
+#define CARPETA_RAIZ "${CMAKE_SOURCE_DIR}/"
 #define MAX_LEN_SHORT 12
 #define MAX_LEN_LONG  48
 

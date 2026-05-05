@@ -6,13 +6,15 @@
 
 // Librerías
 #include <stdio.h>
-#include "../include/lector.h"
+#include "lector.h"
+#include "config.h"
 
 // Función principal
 int main()
 {
   unsigned int tamano;
-  linea *datos = csv_a_actividades("../data/dataset.csv", &tamano);
+  const char *ruta_al_CSV = RUTA_DATASET;
+  linea *datos = csv_a_actividades(ruta_al_CSV, &tamano);
 
   printf("%s", datos[10].actividad_base);
 
