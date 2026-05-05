@@ -51,7 +51,7 @@ linea *csv_a_actividades(char *ruta_al_CSV, unsigned int *tamano)
   // Considerar que si lectura ha sido errónea.
   if (archivo == NULL)
   {
-    perror("csv_a_actividades(): Ha ocurrido un error al abrir el archivo.");
+    perror("csv_a_actividades(): Ha ocurrido un error al abrir el archivo en la ruta.\n");
     fclose(archivo);
     return NULL;
   }
@@ -61,7 +61,7 @@ linea *csv_a_actividades(char *ruta_al_CSV, unsigned int *tamano)
     linea *datos = malloc(sizeof(linea) * lineas + 1);
     int fscanf_return, errores = 0;
 
-    for (int i = 0; i < lineas; i++) {
+    for (unsigned int i = 0; i < lineas; i++) {
       fscanf_return = fscanf(archivo, "%d %d %d %[^ ] %d:%d %d:%d %[^ ] %[^ ] %[^ ] %d %d %d %[^\n]\n",
         &datos[i].anio, &datos[i].mes, &datos[i].dia,
         datos[i].dia_semana,

@@ -1,0 +1,8 @@
+// Este es un archivo de configuración para CMake, para que no haya problemas con la ruta del dataset.csv.
+
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define RUTA_DATASET "@CMAKE_SOURCE_DIR@/data/dataset.csv"
+
+#endif

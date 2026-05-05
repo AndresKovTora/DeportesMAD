@@ -1,13 +1,16 @@
-# Directorios de build
-/build
+# Directorios de compilación
+build/
+out/
+include/config.h
 
 # Ejecutables
 *.out
 *.o
 *.exe
 
-# Archivos de editor
+# Archivos y directorios de editor
 .vscode/
+.vs/
 .idea/
 
 # Scripts de compilación
