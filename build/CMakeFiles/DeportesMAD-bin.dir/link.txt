@@ -1,1 +1,0 @@
-/usr/bin/cc -Wl,--dependency-file=CMakeFiles/DeportesMAD-bin.dir/link.d "CMakeFiles/DeportesMAD-bin.dir/src/main.c.o" "CMakeFiles/DeportesMAD-bin.dir/src/lector.c.o" -o DeportesMAD-bin

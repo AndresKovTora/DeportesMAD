@@ -1,5 +1,5 @@
 # Directorios de compilación
-build/
+./build/
 ./out/
 ./include/config.h
 

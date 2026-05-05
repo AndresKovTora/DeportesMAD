@@ -1,3 +1,0 @@
-/home/adrw216/UPM/2-cuatri/informatica/proyecto/app/build/CMakeFiles/DeportesMAD-bin.dir
-/home/adrw216/UPM/2-cuatri/informatica/proyecto/app/build/CMakeFiles/edit_cache.dir
-/home/adrw216/UPM/2-cuatri/informatica/proyecto/app/build/CMakeFiles/rebuild_cache.dir
