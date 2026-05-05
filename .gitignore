@@ -16,3 +16,8 @@
 # Scripts de compilación
 *.sh
 *.bat
+
+build/
+*.exe
+*.obj
+*.pdb
