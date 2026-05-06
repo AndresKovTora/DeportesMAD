@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "lector.h"
 #include "config.h"
+#include "listas.h"
 
 // Función principal
 int main()
@@ -17,8 +18,11 @@ int main()
   linea *datos = csv_a_actividades(ruta_al_CSV, &tamano);
 
   printf("%s", datos[10].actividad_base);
+  char *centro_elegido = elegir_centro(datos, tamano);
+  printf("%s", centro_elegido);
 
   free(datos);
+  free(centro_elegido);
   
   return 0;
 }
