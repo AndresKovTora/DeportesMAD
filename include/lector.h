@@ -1,6 +1,8 @@
 /*
+
   lector.h
   Esta es la librería destinada a todas las funciones que se encargan de leer el .csv que nos han dado.
+
 */
 
 #ifndef _STDLIB_H
@@ -18,7 +20,6 @@
 
 #ifndef LECTOR_H
 #define LECTOR_H
-#define CARPETA_RAIZ "${CMAKE_SOURCE_DIR}/"
 #define MAX_LEN_SHORT 12
 #define MAX_LEN_LONG  48
 

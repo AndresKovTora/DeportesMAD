@@ -1,7 +1,9 @@
 /*
+
   lector.c
   Esta es la librería destinada a todas las funciones que se encargan de leer el .csv que nos han dado.
   Todos los comentarios en lector.h
+
 */
 
 // Includes
@@ -30,14 +32,14 @@ int contar_lineas(FILE *archivo)
   while ((lectura = fgetc(archivo)) != EOF) {
     if (lectura == '\n') {
       lineas_totales++;
-      printf("\rcontar_lineas(): leídas %d líneas.", lineas_totales);
+      printf("\rcontar_lineas(): contadas %d líneas.", lineas_totales);
       fflush(stdout);
     }
   }
 
+  printf("\n");
+
   fseek(archivo, cursor_limpio, SEEK_SET);
-  printf("\rContadas %d líneas.", lineas_totales);
-  fflush(stdout);
 
   return lineas_totales;
 }
@@ -57,11 +59,11 @@ linea *csv_a_actividades(char *ruta_al_CSV, unsigned int *tamano)
   }
   // Si la lecutra ha sido correcta, comenzar la lectura del archivo.
   else {
-    unsigned int lineas = contar_lineas(archivo);
-    linea *datos = malloc(sizeof(linea) * lineas + 1);
+    *tamano = contar_lineas(archivo);
+    linea *datos = malloc(sizeof(linea) * *tamano + 1);
     int fscanf_return, errores = 0;
 
-    for (unsigned int i = 0; i < lineas; i++) {
+    for (unsigned int i = 0; i < *tamano; i++) {
       fscanf_return = fscanf(archivo, "%d %d %d %[^ ] %d:%d %d:%d %[^ ] %[^ ] %[^ ] %d %d %d %[^\n]\n",
         &datos[i].anio, &datos[i].mes, &datos[i].dia,
         datos[i].dia_semana,

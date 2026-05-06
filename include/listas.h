@@ -1,6 +1,9 @@
 /*
+
   listas.h
-  Esta es la librería destinada a todas las funciones que se encargan de crear listas a partir de los datos que hemos recopilado en lector.h.
+  Esta es la librería destinada a todas las funciones que se encargan de crear listas a partir de los
+  datos que hemos recopilado en lector.h.
+
 */
 
 #include <stdlib.h>

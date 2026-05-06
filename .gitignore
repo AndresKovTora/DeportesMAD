@@ -1,7 +1,6 @@
 # Directorios de compilación
-./build/
-./out/
-./include/config.h
+build/
+out/
 
 # Ejecutables
 *.out
@@ -12,12 +11,13 @@
 .vscode/
 .vs/
 .idea/
+*.obj
+*.pdb
 
 # Scripts de compilación
 *.sh
 *.bat
 
-build/
 *.exe
 *.obj
 *.pdb
