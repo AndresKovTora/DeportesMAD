@@ -8,10 +8,10 @@
 
 #include "../include/listas.h"
 
-void elegir_centro(linea *datos, unsigned int tamano) 
+char* elegir_centro(linea *datos, unsigned int tamano) 
 {
   int i = 0, j = 0, existe = 0, centro_valido = 0;
-  char centro_elegido[99];
+  char *centro_elegido = malloc(100 * sizeof(char)); // Allocate memory
 
   while (centro_valido == 0) {
     //Esto muestra todos los centros
@@ -46,4 +46,5 @@ void elegir_centro(linea *datos, unsigned int tamano)
       printf("Centro no válido. Por favor, elige un centro de la lista.\n");
     }   
   }
+  return centro_elegido;
 }
