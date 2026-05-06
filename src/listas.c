@@ -92,3 +92,24 @@ char* elegir_centro(linea *datos, unsigned int tamano)
   }
   return centro_elegido;
 }
+
+void lista_actividades_centro(linea *datos, unsigned int tamano, char* centro_seleccionado) 
+{
+  int i = 0, j = 0, existe = 0;
+  printf("Actividades disponibles en el centro %s:\n", centro_seleccionado);
+  for (i = 0; i < tamano; i++){
+    if (strcmp(datos[i].centro, centro_seleccionado) == 0){
+      existe = 0;
+      for (j = 0; j < i && existe == 0; j++){
+        //Si la actividad ya ha sido mostrada, no la mostramos de nuevo
+        if (strcmp(datos[i].actividad, datos[j].actividad) == 0){
+          existe = 1;
+        }
+      }
+      //Si la actividad no ha sido mostrada, la mostramos
+      if (existe == 0){
+        printf("%s\n", datos[i].actividad);
+      }
+    }
+  }
+}

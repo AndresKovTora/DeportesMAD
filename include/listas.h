@@ -20,5 +20,5 @@
 //lista de todos los centros que hay
 void lista_centros(linea *datos, unsigned int tamano);
 char* elegir_centro(linea *datos, unsigned int tamano);
-
+void lista_actividades_centro(linea *datos, unsigned int tamano, char* centro_seleccionado);
 #endif
