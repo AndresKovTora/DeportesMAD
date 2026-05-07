@@ -93,6 +93,47 @@ char* elegir_centro(linea *datos, unsigned int tamano)
   return centro_elegido;
 }
 
+// Función para mostrar solo actividades con plazas libres en un centro específico
+void actividades_libres(linea *datos, unsigned int tamano, char* centro_seleccionado) 
+{
+  char actividades[100][MAX_LEN_LONG];
+  int libres_max[100];
+  int plazas_totales[100];
+  unsigned int num_actividades = 0;
+
+  for (unsigned int i = 0; i < tamano; i++) {
+    if (strcmp(datos[i].centro, centro_seleccionado) == 0 && datos[i].libres > 0) {
+      int encontrada = 0;
+      for (unsigned int j = 0; j < num_actividades && encontrada == 0; j++) {
+        if (strcmp(datos[i].actividad_base, actividades[j]) == 0) {
+          encontrada = 1;
+          if (datos[i].libres > libres_max[j]) {
+            libres_max[j] = datos[i].libres;
+            plazas_totales[j] = datos[i].plazas;
+          }
+        }
+      }
+      if (encontrada == 0 && num_actividades < 100) {
+        strcpy(actividades[num_actividades], datos[i].actividad_base);
+        libres_max[num_actividades] = datos[i].libres;
+        plazas_totales[num_actividades] = datos[i].plazas;
+        num_actividades++;
+      }
+    }
+  }
+
+  if (num_actividades == 0) {
+    printf("No hay actividades con plazas libres en el centro %s.\n\n", centro_seleccionado);
+    return;
+  }
+
+  printf("Actividades libres en el centro %s:\n", centro_seleccionado);
+  for (unsigned int j = 0; j < num_actividades; j++) {
+    printf("- %s: %d libres de %d totales\n", actividades[j], libres_max[j], plazas_totales[j]);
+  }
+  printf("\n");
+}
+
 void lista_actividades_centro(linea *datos, unsigned int tamano, char* centro_seleccionado) 
 {
   int i = 0, j = 0, existe = 0;
@@ -102,13 +143,13 @@ void lista_actividades_centro(linea *datos, unsigned int tamano, char* centro_se
       existe = 0;
       for (j = 0; j < i && existe == 0; j++){
         //Si la actividad ya ha sido mostrada, no la mostramos de nuevo
-        if (strcmp(datos[i].actividad, datos[j].actividad) == 0){
+        if (strcmp(datos[i].actividad_base, datos[j].actividad_base) == 0){
           existe = 1;
         }
       }
       //Si la actividad no ha sido mostrada, la mostramos
       if (existe == 0){
-        printf("%s\n", datos[i].actividad);
+        printf("%s\n", datos[i].actividad_base);
       }
     }
   }

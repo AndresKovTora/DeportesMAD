@@ -30,6 +30,9 @@ int main()
   char *centro_elegido = elegir_centro(datos, tamano);
   printf("\nHas elegido: %s\n", centro_elegido);
 
+  //Prueba de actividades libres en el centro elegido
+  actividades_libres(datos, tamano, centro_elegido);
+
   // Prueba Actividades en un centro concreto
   printf("\n=== Actividades en el centro elegido ===\n");
   lista_actividades_centro(datos, tamano, centro_elegido);
