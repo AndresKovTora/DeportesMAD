@@ -10,22 +10,30 @@
 
 #include "../include/busqueda.h"
 
-centro *array_centros(linea *datos, unsigned int tamano_de_datos, unsigned int *tamano_array_centros)
+int* array_actividades(linea* datos, unsigned int tamano_datos, unsigned int* ultimo_indice_actividades)
 {
-  char nombre_centro[MAX_LEN_LONG];
-  *tamano_array_centros = 32;
+  int* actividades = calloc(TAMANO_ARRAY_INICIAL, sizeof(int*));
+  *ultimo_indice_actividades = 1;
 
-  centro *centros = malloc(sizeof(centro) * *tamano_array_centros);
+  int i, j, repetido;
 
-  int i, j = 0;
-  for (i = 0; i < tamano_de_datos; i++) {
-    for (j = 0; j >= 0 && j < *tamano_array_centros; j++) {
-      datos[i].centro == centros[j].centro ? j = -1 : j;
+  for (i = *ultimo_indice_actividades; i < tamano_datos; i++) {
+    repetido = 0;
+    for (j = 0; j <= *ultimo_indice_actividades; j++) {
+      if (strcmp(datos[i].actividad_base, datos[actividades[j]].actividad_base) == 0) repetido = 1;
     }
-    if (j >= 0) {
-      
+    if (repetido != 1) {
+      if (*ultimo_indice_actividades <= TAMANO_ARRAY_INICIAL) {
+        actividades[*ultimo_indice_actividades] = i;
+        (*ultimo_indice_actividades)++;
+      } else {
+        fprintf(stderr, "array_actividades(): Excedido el límite de tamaño, leídas %d líneas.\n", i);
+        fprintf(stderr, "*ultimo_indice_actividades: %d", *ultimo_indice_actividades);
+        return NULL;
+      }
     }
   }
+  printf("array_actividades(): Guardadas %d actividades.\n", (*ultimo_indice_actividades) + 1);
 
-  return centros;
+  return actividades;
 }

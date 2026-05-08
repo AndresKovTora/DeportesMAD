@@ -13,7 +13,7 @@ project(DeportesMAD)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Generar config para la ruta al dataset
+# Generar config.h para la ruta al dataset según OS
 configure_file(
     "${CMAKE_SOURCE_DIR}/include/config.h.in"
     "${CMAKE_BINARY_DIR}/include/config.h"
@@ -23,7 +23,7 @@ configure_file(
 include_directories(include ${CMAKE_BINARY_DIR}/include)
 
 # Directorio de código fuente
-set(SOURCE_FILES src/main.c src/lector.c src/listas.c)
+set(SOURCE_FILES src/main.c src/lector.c src/listas.c src/busqueda.c)
 
 # Crear ejecutable
 add_executable(DeportesMAD-bin ${SOURCE_FILES})

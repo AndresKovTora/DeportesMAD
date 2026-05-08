@@ -45,7 +45,7 @@ int contar_lineas(FILE *archivo)
 }
 
 
-linea *csv_a_actividades(char *ruta_al_CSV, unsigned int *tamano)
+linea *csv_a_actividades(const char* ruta_al_CSV, unsigned int* tamano)
 {
   // Abrir el archivo
   FILE *archivo; archivo = fopen(ruta_al_CSV, "r");
