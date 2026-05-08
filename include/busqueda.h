@@ -7,18 +7,24 @@
 
 */
 
+#ifndef _STRING_H
+#include <string.h>
+#endif
+
+#ifndef _STDIO_H
+#include <stdio.h>
+#endif
+
 #ifndef LECTOR_H
 #include "lector.h"
 #endif
 
 #ifndef BUSQUEDA_H
 #define BUSQUEDA_H
+#define TAMANO_ARRAY_INICIAL 200
 
-/* Definición de estructuras */
+/* Definición de funciones */
 
-typedef struct
-{
-  char centro[32];
-} centro;
+int* array_actividades(linea* datos, unsigned int tamano_datos, unsigned int* ultimo_indice_actividades);
 
 #endif

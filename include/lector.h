@@ -52,6 +52,6 @@ typedef struct
 int contar_lineas(FILE *archivo);
 
 // Lector final. Se le pasa el archivo y devuelve un array de estructuras
-linea *csv_a_actividades(char *ruta_al_CSV, unsigned int *tamano);
+linea* csv_a_actividades(const char* ruta_al_CSV, unsigned int *tamano);
 
 #endif
