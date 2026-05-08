@@ -39,6 +39,5 @@ int main()
 
   free(datos);
   free(centro_elegido);
-
   return 0;
 }
