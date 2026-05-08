@@ -201,9 +201,9 @@ char* actividad_mas_popular(linea *datos, unsigned int tamano)
           repetido=1;
         }
       }
-      //Si la actividad no es repetida la guardamos e indicamos en el array de 'sesiones..' para su 
-      //posición que es '0' para quitar la basura de la ram, aumentamos 'y' que va a ser 
-      //la cantidad de actividades guardadas
+      //Si la actividad no es repetida, la guardamos e indicamos en el array de 'sesiones..' para su 
+      //posición, que es '0'. Para quitar la basura de la ram, aumentamos 'y' que va a ser 
+      //la cantidad de actividades guardadas.
       if(repetido==0){
         strcpy(actividades_centro[y], actividad_sel);
         sesiones_totales[y] = 0;
