@@ -4,10 +4,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "lector.h"
+#include <sys/types.h>
+#include "../include/lector.h"
+#include "../include/busqueda.h"
 #include "config.h"
-#include "listas.h"
+#include "../include/listas.h"
 
+// Funciones internas a main.c
+void limpiar_buffer();
+
+// Función main()
 int main()
 {
   unsigned int tamano;
@@ -15,67 +21,88 @@ int main()
   linea *datos = csv_a_actividades(ruta_al_CSV, &tamano);
 
   if (datos == NULL) {
-    printf("Error al cargar el dataset.\n");
-    return 1;
+    fprintf(stderr, "Error: No se ha podido abrir el archivo. Ruta provista: %s", ruta_al_CSV);
+    return -1;
   }
 
-  printf("¿Que vas a querer hacer? Escriba el numero correspondiente: /n");
-  printf("1 ) Hacer una reserva en una actividad. /n 2 ) Descubrir actividades.)");
-  scanf("%d", &opcion);
+  printf("\n*  DeportesMAD (Deportes MADrid) \n*  Bienvenido/a.\n");
 
-  if (opcion == 1) {
-    elegir_centro(datos, tamano);
+  char opcion = '\0';
 
-    actividades_libres(datos, tamano, centro_elegido);
+  while (opcion != '0') {
+    opcion = '\0';
+    printf("\n==Menú principal.\n"
+           "* Elija una opción:\n"
+           "[1] Información sobre centros y actividades.\n"
+           "[2] Búsqueda de actividades con plazas disponibles.\n"
+           "[3] Salir (o Ctrl+C).\n"
+           ":: ");
+    opcion = getchar(); limpiar_buffer();
 
-    return 0;
-  }
+    switch (opcion) {
+      case '1':
+        printf("\n[1] Buscar centros que ofrezcan una actividad.\n"
+               "[2] Buscar actividades disponibles en un centro.\n"
+               ":: ");
+        opcion = getchar(); limpiar_buffer();
 
-  else if (opcion == 2) {
-    printf("¿Quieres descubrir por centro o por actividad? Escriba el numero correspondiente: /n");
-    printf("1 ) Descubrir por centro. /n 2 ) Descubrir por actividad.)");
-    scanf("%d", &descubrir);
+        switch (opcion) {
+          case '1':
+            printf("");
+            unsigned int tamano_array_centros;
+            char buffer[MAX_LEN_LONG];
 
-    if (descubrir == 1) {
-      elegir_centro(datos, tamano); 
+            printf("\n* Introduzca una palabra clave para la búsqueda (EN MINÚSCULA): ");
+            if (scanf("%[^\n]", buffer) == 0) {
+              printf("Error leyendo la entrada.");
+            }
+            limpiar_buffer();
 
-      lista_actividades_centro(datos, tamano, centro_elegido);
-    } else if (descubrir == 2) {
+            int *resultado_busqueda = centros_con_actividad(datos, tamano, &tamano_array_centros, buffer);
+
+            printf("* Centros con actividades según la búsqueda:\n");
+
+            for (int i = 0; i < tamano_array_centros; i++) {
+              printf("- %s: %s\n", datos[resultado_busqueda[i]].centro, datos[resultado_busqueda[i]].actividad_base);
+            }
+            if (tamano_array_centros == 0) printf("Sin resultados de búsqueda.\n");
+
+            free(resultado_busqueda);
+            break;
+
+          case '2':
+            printf("* Escoja un centro.\n");
+            char *centro_elegido = elegir_centro(datos, tamano);
+            actividades_libres(datos, tamano, centro_elegido);
+
+            limpiar_buffer();
+
+            free(centro_elegido);
+            break;
+            
+          default:
+            printf("\n* Opción invalida, abortando...\n");
+        }
+
+        break;
       
+      case '3':
+        opcion = '0';
+        printf("\nSesión terminada.");
+        break;
+
+      default:
+        printf("\n* Opción inválida.\n\n");
     }
   }
-
-    else {
-      printf("Opcion no valida. Vuelva a intentarlo.\n");
-
-      return -1;
-    }
-  else {
-    printf("Opcion no valida. Vuelva a intentarlo.\n");
-
-    return -1; 
-  }
-
-
-  // Prueba de lista_centros 
-  printf("\n=== Lista de centros unicos ===\n");
-  lista_centros(datos, tamano);
-
-  // Prueba de actividad concreta
-  printf("\nActividad de la linea 10: %s\n", datos[10].actividad_base);
-
-  // Prueba de elegir_centro 
-  char *centro_elegido = elegir_centro(datos, tamano);
-  printf("\nHas elegido: %s\n", centro_elegido);
-
-  //Prueba de actividades libres en el centro elegido
-  actividades_libres(datos, tamano, centro_elegido);
-
-  // Prueba Actividades en un centro concreto
-  printf("\n=== Actividades en el centro elegido ===\n");
-  lista_actividades_centro(datos, tamano, centro_elegido);
 
   free(datos);
-  free(centro_elegido);
+
   return 0;
+}
+
+// Limpiar stdin tras usar getchar() o scanf()
+void limpiar_buffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }

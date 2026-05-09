@@ -53,7 +53,7 @@ Búsqueda y print de la actividad más popular del centro, según el criterio de
 
 
 ## Librería búsqueda
-Librería encargada de extraer información particularmente tediosa a partir de los datos procesados, como centros que cuentan con un tipo de actividad (véase que en el [CSV](../data/dataset.csv) cada polideportivo llama de una forma a una misma actividad).
+Librería encargada de extraer información con un enfoque algo distinto que `listas.h`, más centrado en devolver datos utilizables que en la tarea de listarlos.
 
 ### Funciones
 ```c
@@ -65,3 +65,6 @@ Devuelve un array de los números de línea del [CSV](../data/dataset.csv) (en r
 int* centros_con_actividad(linea* datos, unsigned int tamano_datos, unsigned int* tamano_array_centros, char* palabra_clave);
 ```
 Refina el array de números de línea devuelto por `array_actividades` y guarda aquellos que contengaun una actividad con un nombre relacionado al criterio de búsqueda provisto.
+
+## config.h.in
+Archivo de configuración utilizado por CMake para crear la ruta absoluta al [dataset.csv](../data/dataset.csv) en cada ordenador en el que se compila. Este enfoque es tal vez poco portable, tal vez se cambie a futuro.

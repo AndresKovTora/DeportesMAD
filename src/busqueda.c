@@ -9,8 +9,6 @@
 */
 
 #include "../include/busqueda.h"
-#include <ctype.h>
-#include <string.h>
 
 int* array_actividades(linea* datos, unsigned int tamano_datos, unsigned int* ultimo_indice_actividades)
 {
@@ -34,7 +32,6 @@ int* array_actividades(linea* datos, unsigned int tamano_datos, unsigned int* ul
       }
     }
   }
-  printf("array_actividades(): Guardadas %d actividades.\n", (*ultimo_indice_actividades) + 1);
 
   return actividades;
 }
@@ -47,9 +44,11 @@ int* centros_con_actividad(linea* datos, unsigned int tamano_datos, unsigned int
   int *actividades = array_actividades(datos, tamano_datos, &ultimo_indice_actividades);
 
   int i;
+  char *busqueda;
   for (i = 0; i < ultimo_indice_actividades; i++) {
-    if (strstr(datos[actividades[i]].actividad_base, palabra_clave) != NULL) {
-      centros[*tamano_array_centros] = i;
+    busqueda = strstr(datos[actividades[i]].actividad_base, palabra_clave);
+    if (busqueda != NULL && busqueda != 0) {
+      centros[*tamano_array_centros] = actividades[i];
       (*tamano_array_centros)++;
     }
   }

@@ -58,25 +58,26 @@ char* elegir_centro(linea *datos, unsigned int tamano)
   int i = 0, j = 0, existe = 0, centro_valido = 0;
   char *centro_elegido = malloc(100 * sizeof(char));
 
-  while (centro_valido == 0) {
-    //Esto muestra todos los centros
-    printf("Centros disponibles:\n");
-    for (i = 0; i < tamano; i++){
-      existe = 0;
-      for (j = 0; j < i && existe == 0; j++){
-        //Si el centro ya ha sido mostrado, no lo mostramos de nuevo
-        if (strcmp(datos[i].centro, datos[j].centro) == 0){
-          existe = 1;
-        }
-      }
-      //Si el centro no ha sido mostrado, lo mostramos
-      if (existe == 0){
-        printf("%s\n", datos[i].centro);
+  //Esto muestra todos los centros
+  printf("Centros disponibles:\n");
+  for (i = 0; i < tamano; i++){
+    existe = 0;
+    for (j = 0; j < i && existe == 0; j++){
+      //Si el centro ya ha sido mostrado, no lo mostramos de nuevo
+      if (strcmp(datos[i].centro, datos[j].centro) == 0){
+        existe = 1;
       }
     }
+    //Si el centro no ha sido mostrado, lo mostramos
+    if (existe == 0){
+      printf("%s\n", datos[i].centro);
+    }
+  }
 
-    //Esto pide al usuario que elija un centro
-    printf("Elige un centro:\n ");
+  //Esto pide al usuario que elija un centro
+  printf("* Elige un centro:\n:: ");
+
+  while (centro_valido == 0) {
     scanf("%s", centro_elegido);
 
     //Esto comprueba que el centro elegido es válido
@@ -87,7 +88,7 @@ char* elegir_centro(linea *datos, unsigned int tamano)
       }
     }
     if (centro_valido == 0){
-      printf("Centro no válido. Por favor, elige un centro de la lista.\n");
+      printf("* Centro no válido. Por favor, elige un centro de la lista.\n:: ");
     }
   }
   return centro_elegido;
@@ -123,15 +124,14 @@ void actividades_libres(linea *datos, unsigned int tamano, char* centro_seleccio
   }
 
   if (num_actividades == 0) {
-    printf("No hay actividades con plazas libres en el centro %s.\n\n", centro_seleccionado);
+    printf("\n* No hay actividades con plazas libres en el centro %s.\n\n", centro_seleccionado);
     return;
   }
 
-  printf("Actividades libres en el centro %s:\n", centro_seleccionado);
+  printf("\n* Actividades libres en el centro %s:\n", centro_seleccionado);
   for (unsigned int j = 0; j < num_actividades; j++) {
     printf("- %s: %d libres de %d totales\n", actividades[j], libres_max[j], plazas_totales[j]);
   }
-  printf("\n");
 }
 
 void lista_actividades_centro(linea *datos, unsigned int tamano, char* centro_seleccionado) 
