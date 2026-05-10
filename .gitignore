@@ -6,7 +6,6 @@ w64/
 # Ejecutables
 *.out
 *.o
-*.exe
 
 # Archivos y directorios de editor
 .vscode/
