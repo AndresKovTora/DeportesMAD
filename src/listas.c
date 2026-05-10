@@ -172,7 +172,7 @@ char* actividad_mas_popular(linea *datos, unsigned int tamano)
 
 //Preguntamos que centro quiere buscar el usuario y comprobamos que existe
   while(existe !=1){
-    printf("Elige el centro a buscar: \n");
+    printf("\n* Elige el centro a buscar:\n:: ");
     scanf("%s",centro_selecionado_pop);
     for(i=0; i<tamano && existe==0; i++){
       if(strcmp(centro_selecionado_pop, datos[i].centro)==0){
@@ -180,10 +180,10 @@ char* actividad_mas_popular(linea *datos, unsigned int tamano)
       }
     }
     if(existe==0){
-      printf("Error, el centro '%s' selecionado no existe\n", centro_selecionado_pop);
+      printf("* Error: el centro '%s' no figura en los datos.", centro_selecionado_pop);
     }
     else{
-      printf("El centro '%s' se ha selecionado correctamente\n",centro_selecionado_pop);
+      printf("* El centro '%s' se ha selecionado correctamente\n",centro_selecionado_pop);
     }
   }
 

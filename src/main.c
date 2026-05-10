@@ -12,6 +12,7 @@
 
 // Funciones internas a main.c
 void limpiar_buffer();
+void menu_1(linea* datos, unsigned int tamano);
 
 // Función main()
 int main()
@@ -41,58 +42,20 @@ int main()
 
     switch (opcion) {
       case '1':
-        printf("\n[1] Buscar centros que ofrezcan una actividad.\n"
-               "[2] Buscar actividades disponibles en un centro.\n"
-               ":: ");
-        opcion = getchar(); limpiar_buffer();
+        menu_1(datos, tamano);
+        break;
 
-        switch (opcion) {
-          case '1':
-            printf("");
-            unsigned int tamano_array_centros;
-            char buffer[MAX_LEN_LONG];
-
-            printf("\n* Introduzca una palabra clave para la búsqueda (EN MINÚSCULA): ");
-            if (scanf("%[^\n]", buffer) == 0) {
-              printf("Error leyendo la entrada.");
-            }
-            limpiar_buffer();
-
-            int *resultado_busqueda = centros_con_actividad(datos, tamano, &tamano_array_centros, buffer);
-
-            printf("* Centros con actividades según la búsqueda:\n");
-
-            for (int i = 0; i < tamano_array_centros; i++) {
-              printf("- %s: %s\n", datos[resultado_busqueda[i]].centro, datos[resultado_busqueda[i]].actividad_base);
-            }
-            if (tamano_array_centros == 0) printf("Sin resultados de búsqueda.\n");
-
-            free(resultado_busqueda);
-            break;
-
-          case '2':
-            printf("* Escoja un centro.\n");
-            char *centro_elegido = elegir_centro(datos, tamano);
-            actividades_libres(datos, tamano, centro_elegido);
-
-            limpiar_buffer();
-
-            free(centro_elegido);
-            break;
-            
-          default:
-            printf("\n* Opción invalida, abortando...\n");
-        }
-
+      case '2':
+        printf("\n* Opción en desarrollo.\n");
         break;
       
       case '3':
         opcion = '0';
-        printf("\nSesión terminada.");
+        printf("\nSesión terminada.\n");
         break;
 
       default:
-        printf("\n* Opción inválida.\n\n");
+        printf("\n* Opción inválida.\n");
     }
   }
 
@@ -102,7 +65,63 @@ int main()
 }
 
 // Limpiar stdin tras usar getchar() o scanf()
-void limpiar_buffer() {
+void limpiar_buffer()
+{
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
+}
+
+// Opciones del menú principal
+void menu_1(linea* datos, unsigned int tamano)
+{
+  printf("\n[1] Buscar centros que ofrezcan una actividad.\n"
+         "[2] Buscar actividades disponibles en un centro.\n"
+         "[3] Actividad más popular en un centro.\n"
+         ":: ");
+  char opcion = getchar(); limpiar_buffer();
+
+  switch (opcion) {
+    case '1':
+      unsigned int tamano_array_centros;
+      char buffer[MAX_LEN_LONG];
+
+      printf("\n* Introduzca una palabra clave para la búsqueda (EN MINÚSCULA): ");
+      if (scanf("%[^\n]", buffer) == 0) {
+        printf("Error leyendo la entrada.");
+        return;
+      }
+      limpiar_buffer();
+
+      int *resultado_busqueda = centros_con_actividad(datos, tamano, &tamano_array_centros, buffer);
+
+      printf("* Centros con actividades según la búsqueda:\n");
+
+      for (int i = 0; i < tamano_array_centros; i++) {
+        printf("- %s: %s\n", datos[resultado_busqueda[i]].centro, datos[resultado_busqueda[i]].actividad_base);
+      }
+      if (tamano_array_centros == 0) printf("Sin resultados de búsqueda.\n");
+
+      free(resultado_busqueda);
+      break;
+
+    case '2':
+      printf("* Escoja un centro.\n");
+      char *centro_elegido = elegir_centro(datos, tamano);
+      actividades_libres(datos, tamano, centro_elegido);
+
+      limpiar_buffer();
+
+      free(centro_elegido);
+      break;
+
+    case '3':
+      char *actividad_popular = actividad_mas_popular(datos, tamano);
+      printf("* Actividad más popular del centro: %s\n", actividad_popular);
+      limpiar_buffer();
+      
+      break;
+      
+    default:
+      printf("\n* Opción inválida, abortando...\n");
+  }
 }
