@@ -2,16 +2,12 @@
 
   lector.c
   Esta es la librería destinada a todas las funciones que se encargan de leer el .csv que nos han dado.
-  Todos los comentarios en lector.h
 
 */
 
-// Includes
 #include "../include/lector.h"
-#include <stdio.h>
-#include <string.h>
 
-// Funciones
+/* Definición de funciones */
 
 int contar_lineas(FILE *archivo)
 {
@@ -32,7 +28,7 @@ int contar_lineas(FILE *archivo)
   while ((lectura = fgetc(archivo)) != EOF) {
     if (lectura == '\n') {
       lineas_totales++;
-      printf("\rcontar_lineas(): contadas %d líneas.", lineas_totales);
+      // DEBUG: printf("\rcontar_lineas(): contadas %d líneas.", lineas_totales);
       fflush(stdout);
     }
   }
@@ -79,7 +75,7 @@ linea *csv_a_actividades(const char* ruta_al_CSV, unsigned int* tamano)
         errores++;
       }
 
-      printf("\rcsv_a_actividades(): Leídas %d líneas", i+1);
+      printf("\rLeídas %d líneas", i+1);
       fflush(stdout);
     }
 

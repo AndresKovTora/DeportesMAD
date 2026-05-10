@@ -1,16 +1,19 @@
 /*
-  listas.c
-  Esta es la librería destinada a todas las funciones que se encargan de crear listas a partir de los datos
+
+  listas.h
+  Esta es la librería destinada a todas las funciones que se encargan de crear listas a partir de los
+  datos que hemos recopilado en lector.h.
+
 */
 
 #include "../include/listas.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 
+/* Definición de funciones */
+
+// Listar todos los centros que hay. En desuso, por problemas con hacerla de tipo char**.
 void lista_centros(linea *datos, unsigned int tamano)
 {
-  //Variables
+  // Variables
   int repetido, comparar;
   unsigned int posCentros;
   char centro_actual[MAX_LEN_LONG];
@@ -53,34 +56,37 @@ void lista_centros(linea *datos, unsigned int tamano)
   }
 }
 
+// Obtener un string con el nombre de un centro seleccionado existente.
 char* elegir_centro(linea *datos, unsigned int tamano)
 {
   int i = 0, j = 0, existe = 0, centro_valido = 0;
   char *centro_elegido = malloc(100 * sizeof(char));
 
-  //Esto muestra todos los centros
+  // Se muestran todos los centros
   printf("* Centros disponibles:\n");
   for (i = 0; i < tamano; i++){
     existe = 0;
     for (j = 0; j < i && existe == 0; j++){
-      //Si el centro ya ha sido mostrado, no lo mostramos de nuevo
+
+      // Si el centro ya ha sido mostrado, no lo mostramos de nuevo
       if (strcmp(datos[i].centro, datos[j].centro) == 0){
         existe = 1;
       }
     }
-    //Si el centro no ha sido mostrado, lo mostramos
+
+    // Si el centro no ha sido mostrado, lo mostramos
     if (existe == 0){
       printf("-- %s\n", datos[i].centro);
     }
   }
 
-  //Esto pide al usuario que elija un centro
+  // Se pide al usuario que elija un centro
   printf("* Elige un centro:\n:: ");
 
   while (centro_valido == 0) {
     scanf("%s", centro_elegido);
 
-    //Esto comprueba que el centro elegido es válido
+    // Se comprueba que el centro elegido es válido
     centro_valido = 0;
     for (i = 0; i < tamano && centro_valido == 0; i++){
       if (strcmp(centro_elegido, datos[i].centro) == 0){
@@ -91,20 +97,27 @@ char* elegir_centro(linea *datos, unsigned int tamano)
       printf("* Centro no válido. Por favor, elige un centro de la lista.\n:: ");
     }
   }
+
   return centro_elegido;
 }
 
-// Función para mostrar solo actividades con plazas libres en un centro específico
+// Listar las actividades con plazas libres en un centro.
 void actividades_libres(linea *datos, unsigned int tamano, char* centro_seleccionado) 
 {
+  // Variables
   char actividades[100][MAX_LEN_LONG];
   int libres_max[100];
   int plazas_totales[100];
   unsigned int num_actividades = 0;
 
+  // Se recorren todas las líneas de `linea* datos`
   for (unsigned int i = 0; i < tamano; i++) {
+
+    // Se buscan las actividads que ocurren en el centro seleccionado que tienen sitio libre
     if (strcmp(datos[i].centro, centro_seleccionado) == 0 && datos[i].libres > 0) {
       int encontrada = 0;
+
+      // Se cuenta las veces que la actividad tiene sitio libre.
       for (unsigned int j = 0; j < num_actividades && encontrada == 0; j++) {
         if (strcmp(datos[i].actividad_base, actividades[j]) == 0) {
           encontrada = 1;
@@ -114,6 +127,8 @@ void actividades_libres(linea *datos, unsigned int tamano, char* centro_seleccio
           }
         }
       }
+
+      // Se guarda la actividad, su ocupación y sus plazas totales.
       if (encontrada == 0 && num_actividades < 100) {
         strcpy(actividades[num_actividades], datos[i].actividad_base);
         libres_max[num_actividades] = datos[i].libres;
@@ -123,33 +138,40 @@ void actividades_libres(linea *datos, unsigned int tamano, char* centro_seleccio
     }
   }
 
+  // Se contempla que no se hayan encontrado plazas libres en el centro
   if (num_actividades == 0) {
     printf("\n* No hay actividades con plazas libres en el centro %s.\n\n", centro_seleccionado);
     return;
   }
 
+  // Se imprimen las actividades encontradas.
   printf("\n* Actividades libres en el centro %s:\n", centro_seleccionado);
   for (unsigned int j = 0; j < num_actividades; j++) {
     printf("-- %s: %d libres de %d totales\n", actividades[j], libres_max[j], plazas_totales[j]);
   }
 }
 
+// Lista de todas las actividades de un centro.
 void lista_actividades_centro(linea *datos, unsigned int tamano, char* centro_seleccionado) 
 {
   int i = 0, j = 0, existe = 0;
   printf("* Actividades disponibles en el centro %s:\n", centro_seleccionado);
+
+  // Listado de todas las actividades de un mismo centro
   for (i = 0; i < tamano; i++){
     if (strcmp(datos[i].centro, centro_seleccionado) == 0){
       existe = 0;
       for (j = 0; j < i && existe == 0; j++) {
+
+        // Si la actividad ya ha sido mostrada, no la mostramos de nuevo
         if (strcmp(datos[j].centro, centro_seleccionado) == 0) {
-        //Si la actividad ya ha sido mostrada, no la mostramos de nuevo
           if (strcmp(datos[i].actividad_base, datos[j].actividad_base) == 0){
             existe = 1;
           }
         }
       }
-      //Si la actividad no ha sido mostrada, la mostramos
+
+      // Si la actividad no ha sido mostrada, la mostramos
       if (existe == 0){
         printf("-- %s\n", datos[i].actividad_base);
       }
@@ -157,22 +179,23 @@ void lista_actividades_centro(linea *datos, unsigned int tamano, char* centro_se
   }
 }
 
-//Función que pregunta un centro en el que buscar la actividad más popular bajo la proporción:
-//Sesiones llenas/sesiones totales.
+// Encuentra la actividad más popular de un centro (la propia función pide la búsqueda del centro,
+// no lo requiere como parámetro). Se hace bajo el criterio de la propoción entre sesiones llenas
+// y sesiones totales
 char* actividad_mas_popular(linea *datos, unsigned int tamano) 
 {
-  //Variables
+  // Variables
   char actividades_centro[100][MAX_LEN_LONG];
   char centro_selecionado_pop[MAX_LEN_LONG];
   char actividad_sel[MAX_LEN_LONG];
 
-  //Hay que hacer malloc ya que va a ser el char en el return, HAY QUE PONER FREE() SI SE USA!
+  // Hay que hacer malloc ya que va a ser el char en el return, HAY QUE PONER FREE() SI SE USA!
   char *actividad_popular = malloc(MAX_LEN_LONG);
 
   int existe=0, i=0, repetido=0, y=0;
   int sesiones_totales[100], sesiones_llenas[100];
 
-  //Preguntamos que centro quiere buscar el usuario y comprobamos que existe
+  // Preguntamos que centro quiere buscar el usuario y comprobamos que existe
   while(existe !=1){
     printf("\n* Elige el centro a buscar:\n:: ");
     scanf("%s",centro_selecionado_pop);
@@ -189,23 +212,23 @@ char* actividad_mas_popular(linea *datos, unsigned int tamano)
     }
   }
 
-  //Buscamos en los datos las líneas con nuestro centro y guardamos la actividad como '...actual'.
+  // Buscamos en los datos las líneas con nuestro centro y guardamos la actividad como '...actual'.
   for (unsigned int i = 0; i < tamano; i++) {
     if (strcmp(datos[i].centro, centro_selecionado_pop) == 0) {
       strcpy(actividad_sel, datos[i].actividad_base);
       
       repetido=0;
-      //Comprobamos si la actividad se ha repetido con un barrido donde 'y' 
-      //es la cantidad de actividaddes que hemos guardado en total en 'actividades_centro'
+      // Comprobamos si la actividad se ha repetido con un barrido donde 'y' 
+      // es la cantidad de actividaddes que hemos guardado en total en 'actividades_centro'
       for(int x=0; x<y; x++){
         if(strcmp(actividad_sel, actividades_centro[x]) == 0){
-          //Indicamos si es repetida
+          // Indicamos si es repetida
           repetido=1;
         }
       }
-      //Si la actividad no es repetida, la guardamos e indicamos en el array de 'sesiones..' para su 
-      //posición, que es '0'. Para quitar la basura de la ram, aumentamos 'y' que va a ser 
-      //la cantidad de actividades guardadas.
+      // Si la actividad no es repetida, la guardamos e indicamos en el array de 'sesiones..' para su 
+      // posición, que es '0'. Para quitar la basura de la ram, aumentamos 'y' que va a ser 
+      // la cantidad de actividades guardadas.
       if(repetido==0){
         strcpy(actividades_centro[y], actividad_sel);
         sesiones_totales[y] = 0;
@@ -214,21 +237,21 @@ char* actividad_mas_popular(linea *datos, unsigned int tamano)
       }
     }
   }
-  //Buscamos todas las sesiones de nuestro centro
+  // Buscamos todas las sesiones de nuestro centro
   for (unsigned int i = 0; i < tamano; i++){
     if (strcmp(datos[i].centro, centro_selecionado_pop) == 0) 
     {
       for(int x=0; x<y; x++)
       {
-        //Buscamos si la línea que estamos observando tiene la misma actividad que la 
-        //posición actual en la lista de actividades
+        // Buscamos si la línea que estamos observando tiene la misma actividad que la 
+        // posición actual en la lista de actividades
         if(strcmp(datos[i].actividad_base, actividades_centro[x]) == 0)
         {
-          //Si es la misma actividad aumentamos el número de sesiones
+          // Si es la misma actividad aumentamos el número de sesiones
           sesiones_totales[x]++;
           if(datos[i].libres == 0)
           {
-            //Si la sesión no tiene plazas libres aumentamos el número de sesiones llenas
+            // Si la sesión no tiene plazas libres aumentamos el número de sesiones llenas
             sesiones_llenas[x]++;
           }
         }
@@ -236,22 +259,22 @@ char* actividad_mas_popular(linea *datos, unsigned int tamano)
     }
   }
 
-  //Proporción: sesiones llenas/sesiones totales
+  // Proporción: sesiones llenas/sesiones totales
   float max_proporcion = -1.0;
   strcpy(actividad_popular, "0"); 
 
   for (int x = 0; x < y; x++) {
     float proporcion_actual = 0.0;
     if (sesiones_totales[x] > 0) {
-      //Forzamos a C a hacer una división float con el '(float)', si no lo ponemos C va a darnos una
-      //división sin decimales al ser las variables 'int'
+      // Forzamos a C a hacer una división float con el '(float)', si no lo ponemos C va a darnos una
+      // división sin decimales al ser las variables 'int'
       proporcion_actual = (float)sesiones_llenas[x] / sesiones_totales[x]; 
     }
-    //Buscamos si la proporción que acabamos de calcular es mayor que la maxima que ya teniamos guardada
-    //si lo es aquella se volvera la nueva proporción máxima
+    // Buscamos si la proporción que acabamos de calcular es mayor que la maxima que ya teniamos guardada
+    // si lo es aquella se volvera la nueva proporción máxima
     if (proporcion_actual > max_proporcion) {
       max_proporcion = proporcion_actual;
-      //Guardamos la actividad de máxima proporción como la actividad más popular
+      // Guardamos la actividad de máxima proporción como la actividad más popular
       strcpy(actividad_popular, actividades_centro[x]);
     }
   }
