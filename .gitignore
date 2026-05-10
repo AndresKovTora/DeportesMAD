@@ -1,6 +1,7 @@
 # Directorios de compilación
 build/
 out/
+w64/
 
 # Ejecutables
 *.out
@@ -17,6 +18,7 @@ out/
 # Scripts de compilación
 *.sh
 *.bat
+win64-toolchain.cmake
 
 *.exe
 *.obj

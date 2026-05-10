@@ -6,6 +6,11 @@ if(MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
+# Activar UTF8 en Windows
+if(WIN32)
+    add_compile_options(-finput-charset=UTF-8 -fexec-charset=cp1252)
+endif()
+
 # Nombre de proyecto
 project(DeportesMAD)
 

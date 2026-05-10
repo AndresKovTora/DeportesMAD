@@ -2,15 +2,20 @@
   DeportesMAD (Deportes MADrid)
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
+/* Cabecera */
+
+// Librerías básicas
 #include "../include/lector.h"
 #include "../include/busqueda.h"
 #include "../include/listas.h"
 #include "config.h"
 
-/* Cabecera */
+// Librerías para codificación UTF-8 en Windows
+#ifdef _WIN32
+#include <windows.h>
+#endif
+#include <locale.h>
+
 // Funciones internas a main.c
 void limpiar_buffer();
 void menu_1(linea* datos, unsigned int tamano);
@@ -19,6 +24,12 @@ void menu_1(linea* datos, unsigned int tamano);
 
 int main()
 {
+  // Activar el modo UTF-8 de la consola de Windows y establecer el idioma en español
+  #ifdef _WIN32
+  SetConsoleOutputCP(65001);
+  #endif
+  setlocale(LC_ALL, "es_ES.UTF-8"); 
+
   // Se abre el archivo CSV. Escribir *ruta_al_CSV como:
   // - RUTA_DATASET: Ruta según la compilación de CMake, varía según el ordenador así que hay que compilar
   //   para poder ejecutar el binario. Véase include/config.h.in
@@ -31,7 +42,9 @@ int main()
   // Contemplar errores a la hora de abrir el archivo
   if (datos == NULL) {
     fprintf(stderr, "Error: No se ha podido abrir el archivo.\n"
-            "Solución: editar main.c > const char *ruta_al_CSV\n"
+            "Posibles soluciones:\n"
+            "editar main.c > const char *ruta_al_CSV\n"
+            "Ejecutar el programa desde el directorio en el que está (debería ser bin/<Carpeta del OS>/).\n"
             "Cerrando programa...\n");
     return -1;
   }
