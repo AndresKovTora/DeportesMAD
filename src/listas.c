@@ -59,7 +59,7 @@ char* elegir_centro(linea *datos, unsigned int tamano)
   char *centro_elegido = malloc(100 * sizeof(char));
 
   //Esto muestra todos los centros
-  printf("Centros disponibles:\n");
+  printf("* Centros disponibles:\n");
   for (i = 0; i < tamano; i++){
     existe = 0;
     for (j = 0; j < i && existe == 0; j++){
@@ -70,7 +70,7 @@ char* elegir_centro(linea *datos, unsigned int tamano)
     }
     //Si el centro no ha sido mostrado, lo mostramos
     if (existe == 0){
-      printf("%s\n", datos[i].centro);
+      printf("-- %s\n", datos[i].centro);
     }
   }
 
@@ -130,26 +130,28 @@ void actividades_libres(linea *datos, unsigned int tamano, char* centro_seleccio
 
   printf("\n* Actividades libres en el centro %s:\n", centro_seleccionado);
   for (unsigned int j = 0; j < num_actividades; j++) {
-    printf("- %s: %d libres de %d totales\n", actividades[j], libres_max[j], plazas_totales[j]);
+    printf("-- %s: %d libres de %d totales\n", actividades[j], libres_max[j], plazas_totales[j]);
   }
 }
 
 void lista_actividades_centro(linea *datos, unsigned int tamano, char* centro_seleccionado) 
 {
   int i = 0, j = 0, existe = 0;
-  printf("Actividades disponibles en el centro %s:\n", centro_seleccionado);
+  printf("* Actividades disponibles en el centro %s:\n", centro_seleccionado);
   for (i = 0; i < tamano; i++){
     if (strcmp(datos[i].centro, centro_seleccionado) == 0){
       existe = 0;
-      for (j = 0; j < i && existe == 0; j++){
+      for (j = 0; j < i && existe == 0; j++) {
+        if (strcmp(datos[j].centro, centro_seleccionado) == 0) {
         //Si la actividad ya ha sido mostrada, no la mostramos de nuevo
-        if (strcmp(datos[i].actividad_base, datos[j].actividad_base) == 0){
-          existe = 1;
+          if (strcmp(datos[i].actividad_base, datos[j].actividad_base) == 0){
+            existe = 1;
+          }
         }
       }
       //Si la actividad no ha sido mostrada, la mostramos
       if (existe == 0){
-        printf("%s\n", datos[i].actividad_base);
+        printf("-- %s\n", datos[i].actividad_base);
       }
     }
   }
@@ -170,7 +172,7 @@ char* actividad_mas_popular(linea *datos, unsigned int tamano)
   int existe=0, i=0, repetido=0, y=0;
   int sesiones_totales[100], sesiones_llenas[100];
 
-//Preguntamos que centro quiere buscar el usuario y comprobamos que existe
+  //Preguntamos que centro quiere buscar el usuario y comprobamos que existe
   while(existe !=1){
     printf("\n* Elige el centro a buscar:\n:: ");
     scanf("%s",centro_selecionado_pop);

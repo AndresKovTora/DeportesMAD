@@ -32,7 +32,7 @@ int main()
 
   while (opcion != '0') {
     opcion = '\0';
-    printf("\n==Menú principal.\n"
+    printf("\n===== Menú principal\n"
            "* Elija una opción:\n"
            "[1] Información sobre centros y actividades.\n"
            "[2] Búsqueda de actividades con plazas disponibles.\n"
@@ -46,7 +46,13 @@ int main()
         break;
 
       case '2':
-        printf("\n* Opción en desarrollo.\n");
+        printf("* Escoja un centro.\n");
+        char *centro_elegido = elegir_centro(datos, tamano);
+        actividades_libres(datos, tamano, centro_elegido);
+
+        limpiar_buffer();
+
+        free(centro_elegido);
         break;
       
       case '3':
@@ -75,7 +81,7 @@ void limpiar_buffer()
 void menu_1(linea* datos, unsigned int tamano)
 {
   printf("\n[1] Buscar centros que ofrezcan una actividad.\n"
-         "[2] Buscar actividades disponibles en un centro.\n"
+         "[2] Ver actividades disponibles en un centro.\n"
          "[3] Actividad más popular en un centro.\n"
          ":: ");
   char opcion = getchar(); limpiar_buffer();
@@ -97,7 +103,7 @@ void menu_1(linea* datos, unsigned int tamano)
       printf("* Centros con actividades según la búsqueda:\n");
 
       for (int i = 0; i < tamano_array_centros; i++) {
-        printf("- %s: %s\n", datos[resultado_busqueda[i]].centro, datos[resultado_busqueda[i]].actividad_base);
+        printf("-- %s: %s\n", datos[resultado_busqueda[i]].centro, datos[resultado_busqueda[i]].actividad_base);
       }
       if (tamano_array_centros == 0) printf("Sin resultados de búsqueda.\n");
 
@@ -105,9 +111,8 @@ void menu_1(linea* datos, unsigned int tamano)
       break;
 
     case '2':
-      printf("* Escoja un centro.\n");
       char *centro_elegido = elegir_centro(datos, tamano);
-      actividades_libres(datos, tamano, centro_elegido);
+      lista_actividades_centro(datos, tamano, centro_elegido);
 
       limpiar_buffer();
 
